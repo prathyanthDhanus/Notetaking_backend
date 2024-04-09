@@ -55,7 +55,7 @@ module.exports = {
             return res.status(200).json({
                 status:"Success",
                 message : "User logged in successfully",
-                data:findUser
+                data:findUser?._id
             })
          }
 

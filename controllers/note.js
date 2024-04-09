@@ -4,10 +4,9 @@ module.exports = {
   //------------- create notes ---------------
 
   createNote: async (req, res) => {
-    const { title, description, colour } = req.body;
-    const userId = req.params.id;
-    
-    if(!title,!description,!colour){
+    const { title, description, colour ,userId } = req.body;
+   
+    if(!title,!description,!colour,!userId){
         return res.status(499).json({
             status: "Failure",
             Message: "All fields required",
@@ -24,27 +23,27 @@ module.exports = {
 
     return res.status(200).json({
       status: "Success",
-      Message: "Note saved successfully",
+      message: "Note saved successfully",
     });
   },
 
   //------------------- get notes ------------------
-
+ 
   getNotes: async (req, res) => {
-    const userId = req.params.id;
+    const {userId}= req.query;
     const findNotes = await noteSchema.find({ user: userId, isDeleted: false });
-
-    if (findNotes.length > 0) {
+    
+    if (findNotes.length > 0) { 
       return res.status(200).json({
         status: "Success",
-        Message: "Note fetched successfully",
+        message: "Note fetched successfully",
         data: findNotes,
       });
     }
-
+     
     return res.status(404).json({
       status: "Failure",
-      Message: "Notes not found",
+      message: "Notes not found",
     });
   },
 
@@ -57,7 +56,7 @@ module.exports = {
       if(findNotes.isDeleted===false){
         return res.status(200).json({
             status: "Success",
-            Message: "Note fetched successfully",
+            message: "Note fetched successfully",
             data: findNotes,
           });
       }
@@ -72,20 +71,20 @@ module.exports = {
   updateNote: async (req, res) => {
     const taskId = req.params.id;
     const data = req.body;
-
+    
     const updateTask = await noteSchema.findByIdAndUpdate(taskId, data, {
       new: true,
     });
-
+    
     if (!updateTask) {
       return res.status(500).json({
         status: "Failure",
-        Message: "Something went wrong",
+        message: "Something went wrong",
       });
     }
     return res.status(200).json({
       status: "Success",
-      Message: "Task updated successfully",
+      message: "Task updated successfully",
       data: updateTask,
     });
   },
@@ -95,21 +94,21 @@ module.exports = {
   deleteNote: async (req, res) => {
 
     const taskId = req.params.id;
-
+     
     const findNotes = await noteSchema.findById(taskId);
-
+    
     if (!findNotes) {
       return res.status(404).json({
         status: "Failure",
-        Message: "No task available",
+        message: "No task available",
       });
     }
 
     findNotes.isDeleted = true;
     findNotes.save();
-    return res.status(404).json({
+    return res.status(200).json({
       status: "Success",
-      Message: "Note deleted successfully",
+      message: "Note deleted successfully",
     });
   },
 };

@@ -5,13 +5,20 @@
 
 
 router 
-.post('/create/note/:id',tryCatch(note.createNote))
-.get('/get/note/:id',tryCatch(note.getNotes))
-.get('/get/one/note/:id',tryCatch(note.getAnote))
-.put('/update/note/:id',tryCatch(note.updateNote))
-.patch('/delete/note/:id',tryCatch(note.deleteNote))
+.post('/notes',tryCatch(note.createNote))
+.get('/notes',tryCatch(note.getNotes))
+.get('/notes/:id',tryCatch(note.getAnote))
+.put('/notes/:id',tryCatch(note.updateNote))
+.patch('/notes/:id',tryCatch(note.deleteNote))
 
 
+
+
+
+
+
+
+    
 
 
 
